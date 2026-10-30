@@ -110,6 +110,77 @@ public class HackerTerminalDbContext : DbContext
             TimeLimitSeconds = 150,
             IsActive = true,
             CreatedAt = new DateTime(2026, 10, 30)
+        },
+
+        new Scenario
+        {
+            Id = 6,
+            Title = "Password Breach // HARD",
+            Description = "Evaluate a complex password challenge under a tighter time limit.",
+            Category = "Password",
+            Difficulty = "Hard",
+            ChallengePrompt = "A new hard password challenge is generated when you start this mission.",
+            ExpectedAnswer = "M7!vQ2#pL9",
+            XPReward = 160,
+            TimeLimitSeconds = 150,
+            IsActive = true,
+            CreatedAt = new DateTime(2026, 10, 30)
+        },
+        new Scenario
+        {
+            Id = 7,
+            Title = "Cipher Break // HARD",
+            Description = "Decode a longer intercepted message before time runs out.",
+            Category = "Cipher",
+            Difficulty = "Hard",
+            ChallengePrompt = "A new hard Caesar cipher is generated when you start this mission.",
+            ExpectedAnswer = "TERMINALCODE",
+            XPReward = 220,
+            TimeLimitSeconds = 240,
+            IsActive = true,
+            CreatedAt = new DateTime(2026, 10, 30)
+        },
+        new Scenario
+        {
+            Id = 8,
+            Title = "Log Analysis // HARD",
+            Description = "Analyze a larger set of events to find the source of repeated failed logins.",
+            Category = "Log Analysis",
+            Difficulty = "Hard",
+            ChallengePrompt = "A new hard set of login events is generated when you start this mission.",
+            ExpectedAnswer = "10.0.0.1",
+            XPReward = 250,
+            TimeLimitSeconds = 240,
+            IsActive = true,
+            CreatedAt = new DateTime(2026, 10, 30)
+        },
+        new Scenario
+        {
+            Id = 9,
+            Title = "Base64 Decode // HARD",
+            Description = "Decode a longer intercepted Base64 message.",
+            Category = "Base64",
+            Difficulty = "Hard",
+            ChallengePrompt = "A new hard Base64 message is generated when you start this mission.",
+            ExpectedAnswer = "TERMINAL1234",
+            XPReward = 220,
+            TimeLimitSeconds = 240,
+            IsActive = true,
+            CreatedAt = new DateTime(2026, 10, 30)
+        },
+        new Scenario
+        {
+            Id = 10,
+            Title = "URL Analysis // HARD",
+            Description = "Inspect more deceptive URLs and identify the exact trusted hostname.",
+            Category = "URL Analysis",
+            Difficulty = "Hard",
+            ChallengePrompt = "A new hard URL analysis challenge is generated when you start this mission.",
+            ExpectedAnswer = "https://example.com/start",
+            XPReward = 240,
+            TimeLimitSeconds = 210,
+            IsActive = true,
+            CreatedAt = new DateTime(2026, 10, 30)
         }
         );
     }

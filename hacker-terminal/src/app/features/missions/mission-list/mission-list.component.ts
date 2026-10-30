@@ -20,6 +20,8 @@ import { ScenarioService } from '../../../services/scenario.service';
 })
 export class MissionListComponent implements OnInit, OnDestroy {
   public scenarios: Scenario[] = [];
+  public difficultyFilter: 'ALL' | 'EASY' | 'MEDIUM' | 'HARD' = 'ALL';
+  public missionSearch = '';
   public isLoading = false;
   public errorMessage = '';
   public activeChallengePrompt = '';
@@ -162,5 +164,24 @@ export class MissionListComponent implements OnInit, OnDestroy {
       clearInterval(this.countdownInterval);
       this.countdownInterval = null;
     }
+  }
+
+  public get filteredScenarios(): Scenario[] {
+    const search = this.missionSearch.trim().toLowerCase();
+
+    return this.scenarios.filter(scenario => {
+      const matchesDifficulty =
+        this.difficultyFilter === 'ALL' ||
+        scenario.difficulty.toUpperCase() === this.difficultyFilter;
+
+      const searchableText =
+        `${scenario.title} ${scenario.category} ${scenario.description}`
+          .toLowerCase();
+
+      const matchesSearch =
+        search.length === 0 || searchableText.includes(search);
+
+      return matchesDifficulty && matchesSearch;
+    });
   }
 }

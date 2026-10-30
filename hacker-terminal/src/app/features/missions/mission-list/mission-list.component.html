@@ -32,8 +32,36 @@
       }
 
       @if (!isLoading && !errorMessage && scenarios.length > 0) {
+      <div class="mission-filter">
+        <label for="difficulty-filter">FILTER BY DIFFICULTY</label>
+        <select id="difficulty-filter" [(ngModel)]="difficultyFilter">
+          <option value="ALL">ALL DIFFICULTIES</option>
+          <option value="EASY">EASY</option>
+          <option value="MEDIUM">MEDIUM</option>
+          <option value="HARD">HARD</option>
+        </select>
+
+        <label for="mission-search">SEARCH MISSIONS</label>
+        <input id="mission-search"
+               type="search"
+               [(ngModel)]="missionSearch"
+               placeholder="Search title, category, or description"
+               autocomplete="off" />
+      </div>
+      }
+
+      @if (
+      !isLoading &&
+      !errorMessage &&
+      scenarios.length > 0 &&
+      filteredScenarios.length === 0
+      ) {
+      <p>&gt; NO MISSIONS MATCH THE CURRENT FILTERS.</p>
+      }
+
+      @if (!isLoading && !errorMessage && filteredScenarios.length > 0) {
       <section class="mission-grid">
-        @for (scenario of scenarios; track scenario.id) {
+        @for (scenario of filteredScenarios; track scenario.id) {
         <article class="mission-card">
           <p class="mission-category">
             &gt; {{ scenario.category }} // {{ scenario.difficulty }}
@@ -41,11 +69,12 @@
 
           <h2>{{ scenario.title }}</h2>
           <p>{{ scenario.description }}</p>
+
           <p class="mission-challenge">
             {{
-               activeScenarioId === scenario.id && activeSessionId !== null
-              ? activeChallengePrompt
-              : scenario.challengePrompt
+                  activeScenarioId === scenario.id && activeSessionId !== null
+                    ? activeChallengePrompt
+                    : scenario.challengePrompt
             }}
           </p>
 
@@ -68,11 +97,13 @@
           @if (activeScenarioId === scenario.id) {
           <div class="mission-play">
             <p class="mission-status"
-               [class.mission-status-complete]="gameResult?.isCompleted && gameResult?.isCorrect"
+               [class.mission-status-complete]="
+                      gameResult?.isCompleted && gameResult?.isCorrect
+                    "
                [class.mission-status-expired]="
-              (activeSessionId !== null && secondsRemaining === 0) ||
-              (gameResult?.isCompleted && !gameResult?.isCorrect)
-               ">
+                      (activeSessionId !== null && secondsRemaining === 0) ||
+                      (gameResult?.isCompleted && !gameResult?.isCorrect)
+                    ">
               @if (activeSessionId !== null && secondsRemaining > 0) {
               STATUS: MISSION ACTIVE
               } @else if (activeSessionId !== null && secondsRemaining === 0) {
@@ -83,12 +114,14 @@
               STATUS: MISSION FAILED - TIME EXPIRED
               }
             </p>
+
             @if (activeSessionId !== null) {
             <p class="mission-timer"
                [class.mission-timer-low]="secondsRemaining <= 10">
               &gt; TIME REMAINING: {{ secondsRemaining }} SECONDS
             </p>
             }
+
             @if (answerMessage) {
             <p class="answer-message"
                [class.success-message]="gameResult?.isCorrect">

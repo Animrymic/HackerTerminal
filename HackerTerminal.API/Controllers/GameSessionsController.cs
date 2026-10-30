@@ -41,6 +41,7 @@ public class GameSessionsController : ControllerBase
 
         if (!MissionChallengeGenerator.TryGenerate(
         scenario.Category,
+        scenario.Difficulty,
         out string challengePrompt,
         out string expectedAnswer))
         {

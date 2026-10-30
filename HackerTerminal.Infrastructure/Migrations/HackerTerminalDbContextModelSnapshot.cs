@@ -187,6 +187,76 @@ namespace HackerTerminal.Infrastructure.Migrations
                             TimeLimitSeconds = 150,
                             Title = "URL Analysis",
                             XPReward = 180
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Category = "Password",
+                            ChallengePrompt = "A new hard password challenge is generated when you start this mission.",
+                            CreatedAt = new DateTime(2026, 10, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Evaluate a complex password challenge under a tighter time limit.",
+                            Difficulty = "Hard",
+                            ExpectedAnswer = "M7!vQ2#pL9",
+                            IsActive = true,
+                            TimeLimitSeconds = 150,
+                            Title = "Password Breach // HARD",
+                            XPReward = 160
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Category = "Cipher",
+                            ChallengePrompt = "A new hard Caesar cipher is generated when you start this mission.",
+                            CreatedAt = new DateTime(2026, 10, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Decode a longer intercepted message before time runs out.",
+                            Difficulty = "Hard",
+                            ExpectedAnswer = "TERMINALCODE",
+                            IsActive = true,
+                            TimeLimitSeconds = 240,
+                            Title = "Cipher Break // HARD",
+                            XPReward = 220
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Category = "Log Analysis",
+                            ChallengePrompt = "A new hard set of login events is generated when you start this mission.",
+                            CreatedAt = new DateTime(2026, 10, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Analyze a larger set of events to find the source of repeated failed logins.",
+                            Difficulty = "Hard",
+                            ExpectedAnswer = "10.0.0.1",
+                            IsActive = true,
+                            TimeLimitSeconds = 240,
+                            Title = "Log Analysis // HARD",
+                            XPReward = 250
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Category = "Base64",
+                            ChallengePrompt = "A new hard Base64 message is generated when you start this mission.",
+                            CreatedAt = new DateTime(2026, 10, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Decode a longer intercepted Base64 message.",
+                            Difficulty = "Hard",
+                            ExpectedAnswer = "TERMINAL1234",
+                            IsActive = true,
+                            TimeLimitSeconds = 240,
+                            Title = "Base64 Decode // HARD",
+                            XPReward = 220
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Category = "URL Analysis",
+                            ChallengePrompt = "A new hard URL analysis challenge is generated when you start this mission.",
+                            CreatedAt = new DateTime(2026, 10, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Inspect more deceptive URLs and identify the exact trusted hostname.",
+                            Difficulty = "Hard",
+                            ExpectedAnswer = "https://example.com/start",
+                            IsActive = true,
+                            TimeLimitSeconds = 210,
+                            Title = "URL Analysis // HARD",
+                            XPReward = 240
                         });
                 });
 
