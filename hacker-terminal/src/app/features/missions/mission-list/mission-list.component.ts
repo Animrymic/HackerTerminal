@@ -21,6 +21,7 @@ import { ScenarioService } from '../../../services/scenario.service';
 export class MissionListComponent implements OnInit, OnDestroy {
   public scenarios: Scenario[] = [];
   public difficultyFilter: 'ALL' | 'EASY' | 'MEDIUM' | 'HARD' = 'ALL';
+  public categoryFilter = 'ALL';
   public missionSearch = '';
   public isLoading = false;
   public errorMessage = '';
@@ -68,6 +69,12 @@ export class MissionListComponent implements OnInit, OnDestroy {
         this.changeDetector.markForCheck();
       }
     });
+  }
+
+  public get availableCategories(): string[] {
+    return [...new Set(
+      this.scenarios.map(scenario => scenario.category)
+    )].sort((a, b) => a.localeCompare(b));
   }
 
   public startMission(scenario: Scenario): void {
@@ -174,6 +181,10 @@ export class MissionListComponent implements OnInit, OnDestroy {
         this.difficultyFilter === 'ALL' ||
         scenario.difficulty.toUpperCase() === this.difficultyFilter;
 
+      const matchesCategory =
+        this.categoryFilter === 'ALL' ||
+        scenario.category.toLowerCase() === this.categoryFilter.toLowerCase();
+
       const searchableText =
         `${scenario.title} ${scenario.category} ${scenario.description}`
           .toLowerCase();
@@ -181,7 +192,7 @@ export class MissionListComponent implements OnInit, OnDestroy {
       const matchesSearch =
         search.length === 0 || searchableText.includes(search);
 
-      return matchesDifficulty && matchesSearch;
+      return matchesDifficulty && matchesCategory && matchesSearch;
     });
   }
 }

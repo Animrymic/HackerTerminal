@@ -41,6 +41,14 @@
           <option value="HARD">HARD</option>
         </select>
 
+        <label for="category-filter">FILTER BY CATEGORY</label>
+        <select id="category-filter" [(ngModel)]="categoryFilter">
+          <option value="ALL">ALL CATEGORIES</option>
+          @for (category of availableCategories; track category) {
+          <option [value]="category">{{ category }}</option>
+          }
+        </select>
+
         <label for="mission-search">SEARCH MISSIONS</label>
         <input id="mission-search"
                type="search"
@@ -85,7 +93,9 @@
 
           <button class="start-button"
                   type="button"
-                  [disabled]="isStartingScenarioId !== null || activeSessionId !== null"
+                  [disabled]="
+                  isStartingScenarioId !== null || activeSessionId !== null
+                "
                   (click)="startMission(scenario)">
             @if (isStartingScenarioId === scenario.id) {
             STARTING...
@@ -106,11 +116,20 @@
                     ">
               @if (activeSessionId !== null && secondsRemaining > 0) {
               STATUS: MISSION ACTIVE
-              } @else if (activeSessionId !== null && secondsRemaining === 0) {
+              } @else if (
+              activeSessionId !== null &&
+              secondsRemaining === 0
+              ) {
               STATUS: TIME EXPIRED - SUBMIT TO FINISH
-              } @else if (gameResult?.isCompleted && gameResult?.isCorrect) {
+              } @else if (
+              gameResult?.isCompleted &&
+              gameResult?.isCorrect
+              ) {
               STATUS: MISSION COMPLETE
-              } @else if (gameResult?.isCompleted && !gameResult?.isCorrect) {
+              } @else if (
+              gameResult?.isCompleted &&
+              !gameResult?.isCorrect
+              ) {
               STATUS: MISSION FAILED - TIME EXPIRED
               }
             </p>
