@@ -317,3 +317,8 @@
       max-width: none;
     }
 }
+.mission-count {
+  margin: 0 0 18px;
+  color: #777;
+  font-size: 13px;
+}

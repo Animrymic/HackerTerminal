@@ -55,7 +55,16 @@
                [(ngModel)]="missionSearch"
                placeholder="Search title, category, or description"
                autocomplete="off" />
+        <button class="retry-button"
+                type="button"
+                (click)="difficultyFilter = 'ALL'; categoryFilter = 'ALL'; missionSearch = ''">
+          CLEAR FILTERS
+        </button>
       </div>
+
+      <p class="mission-count">
+        &gt; SHOWING {{ filteredScenarios.length }} OF {{ scenarios.length }} MISSIONS
+      </p>
       }
 
       @if (
