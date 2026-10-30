@@ -1,0 +1,78 @@
+<div class="terminal-page">
+
+  <div class="terminal-header">
+
+    <div>
+      <h1>HACKER TERMINAL</h1>
+      <p>SECURE CONNECTION ESTABLISHED</p>
+    </div>
+
+    <div class="user-info">
+
+      <div>
+        USER: <span>{{ username }}</span>
+      </div>
+
+      <div>
+        STATUS: <span>ONLINE</span>
+      </div>
+
+      <button type="button"
+              (click)="logout()">
+        LOGOUT
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="terminal-window">
+
+    <div class="terminal-title">
+      NEXUS TERMINAL
+    </div>
+
+    <div class="terminal-content">
+
+      <p>&gt; INITIALIZING CONNECTION...</p>
+
+      <p>&gt; AUTHENTICATION VERIFIED</p>
+
+      <p>&gt; USER: {{ username }}</p>
+
+      <p>&gt; CONNECTION ESTABLISHED</p>
+
+      <p>&gt; SECURITY LEVEL: NORMAL</p>
+
+      <p>&gt; SYSTEM READY</p>
+
+      <p class="cursor">
+        &gt; _
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <div class="dashboard-menu">
+
+    <button type="button" (click)="openMissions()">MISSIONS</button>
+
+    <button type="button" (click)="openLeaderboard()">LEADERBOARD</button>
+
+    <button type="button" (click)="openProfile()">PROFILE</button>
+
+  </div>
+
+
+  <div class="terminal-footer">
+
+    <span>HACKER TERMINAL v1.0</span>
+
+    <span>SESSION ACTIVE</span>
+
+  </div>
+
+</div>

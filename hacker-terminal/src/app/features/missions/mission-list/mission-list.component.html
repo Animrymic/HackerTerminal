@@ -1,0 +1,140 @@
+<div class="terminal-page">
+  <div class="terminal-header">
+    <div>
+      <h1>HACKER TERMINAL</h1>
+      <p>AVAILABLE MISSIONS</p>
+    </div>
+
+    <div class="user-info">
+      <button class="back-button" type="button" (click)="goBack()">
+        BACK TO DASHBOARD
+      </button>
+    </div>
+  </div>
+
+  <div class="terminal-window">
+    <div class="terminal-title">MISSION DATABASE</div>
+
+    <div class="terminal-content">
+      @if (isLoading) {
+      <p>&gt; LOADING MISSIONS...</p>
+      }
+
+      @if (!isLoading && errorMessage) {
+      <p class="error-message">&gt; {{ errorMessage }}</p>
+      <button class="retry-button" type="button" (click)="loadScenarios()">
+        TRY AGAIN
+      </button>
+      }
+
+      @if (!isLoading && !errorMessage && scenarios.length === 0) {
+      <p>&gt; NO MISSIONS ARE AVAILABLE RIGHT NOW.</p>
+      }
+
+      @if (!isLoading && !errorMessage && scenarios.length > 0) {
+      <section class="mission-grid">
+        @for (scenario of scenarios; track scenario.id) {
+        <article class="mission-card">
+          <p class="mission-category">
+            &gt; {{ scenario.category }} // {{ scenario.difficulty }}
+          </p>
+
+          <h2>{{ scenario.title }}</h2>
+          <p>{{ scenario.description }}</p>
+          <p class="mission-challenge">
+            {{
+               activeScenarioId === scenario.id && activeSessionId !== null
+              ? activeChallengePrompt
+              : scenario.challengePrompt
+            }}
+          </p>
+
+          <p class="mission-reward">
+            REWARD: {{ scenario.xpReward }} XP
+            // TIME LIMIT: {{ scenario.timeLimitSeconds }} SECONDS
+          </p>
+
+          <button class="start-button"
+                  type="button"
+                  [disabled]="isStartingScenarioId !== null || activeSessionId !== null"
+                  (click)="startMission(scenario)">
+            @if (isStartingScenarioId === scenario.id) {
+            STARTING...
+            } @else {
+            START MISSION
+            }
+          </button>
+
+          @if (activeScenarioId === scenario.id) {
+          <div class="mission-play">
+            <p class="mission-status"
+               [class.mission-status-complete]="gameResult?.isCompleted && gameResult?.isCorrect"
+               [class.mission-status-expired]="
+              (activeSessionId !== null && secondsRemaining === 0) ||
+              (gameResult?.isCompleted && !gameResult?.isCorrect)
+               ">
+              @if (activeSessionId !== null && secondsRemaining > 0) {
+              STATUS: MISSION ACTIVE
+              } @else if (activeSessionId !== null && secondsRemaining === 0) {
+              STATUS: TIME EXPIRED - SUBMIT TO FINISH
+              } @else if (gameResult?.isCompleted && gameResult?.isCorrect) {
+              STATUS: MISSION COMPLETE
+              } @else if (gameResult?.isCompleted && !gameResult?.isCorrect) {
+              STATUS: MISSION FAILED - TIME EXPIRED
+              }
+            </p>
+            @if (activeSessionId !== null) {
+            <p class="mission-timer"
+               [class.mission-timer-low]="secondsRemaining <= 10">
+              &gt; TIME REMAINING: {{ secondsRemaining }} SECONDS
+            </p>
+            }
+            @if (answerMessage) {
+            <p class="answer-message"
+               [class.success-message]="gameResult?.isCorrect">
+              &gt; {{ answerMessage }}
+            </p>
+            }
+
+            @if (activeSessionId !== null) {
+            <form (ngSubmit)="submitAnswer()">
+              <label for="answer-{{ scenario.id }}">ENTER ANSWER</label>
+              <input id="answer-{{ scenario.id }}"
+                     name="answer"
+                     type="text"
+                     [(ngModel)]="answer"
+                     autocomplete="off"
+                     required />
+
+              <button class="submit-button"
+                      type="submit"
+                      [disabled]="isSubmitting || !answer.trim()">
+                @if (isSubmitting) {
+                CHECKING...
+                } @else {
+                SUBMIT ANSWER
+                }
+              </button>
+            </form>
+            }
+
+            @if (gameResult?.isCorrect) {
+            <p class="success-message">
+              SCORE: {{ gameResult?.score }}
+              // XP EARNED: {{ gameResult?.xpReward }}
+            </p>
+            }
+          </div>
+          }
+        </article>
+        }
+      </section>
+      }
+    </div>
+  </div>
+
+  <div class="terminal-footer">
+    <span>HACKER TERMINAL v1.0</span>
+    <span>SESSION ACTIVE</span>
+  </div>
+</div>

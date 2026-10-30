@@ -1,0 +1,27 @@
+# .NET build files
+**/bin/
+**/obj/
+.vs/
+*.user
+*.suo
+
+# Angular and Node build files
+**/node_modules/
+**/dist/
+**/.angular/
+npm-debug.log*
+
+# Local configuration and secrets
+**/appsettings.Development.json
+**/.env
+**/.env.*
+!**/.env.example
+
+# Local databases
+**/*.db
+**/*.sqlite
+**/*.sqlite3
+
+# Operating system files
+.DS_Store
+Thumbs.db

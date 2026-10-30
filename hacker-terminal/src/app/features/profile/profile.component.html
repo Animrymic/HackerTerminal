@@ -1,0 +1,179 @@
+<div class="terminal-page">
+  <div class="terminal-header">
+    <div>
+      <h1>HACKER TERMINAL</h1>
+      <p>PLAYER PROFILE</p>
+    </div>
+
+    <div class="user-info">
+      <button class="back-button" type="button" (click)="goBack()">
+        BACK TO DASHBOARD
+      </button>
+    </div>
+  </div>
+
+  <div class="terminal-window">
+    <div class="terminal-title">PLAYER STATISTICS</div>
+
+    <div class="terminal-content">
+      @if (isLoading) {
+      <p>&gt; LOADING PROFILE...</p>
+      }
+
+      @if (!isLoading && errorMessage) {
+      <p class="error-message">&gt; {{ errorMessage }}</p>
+      <button class="retry-button" type="button" (click)="loadProfileData()">
+        TRY AGAIN
+      </button>
+      }
+
+      @if (!isLoading && !errorMessage && profile && stats) {
+      <div class="profile-identity">
+        <p>OPERATOR: <span>{{ profile.username }}</span></p>
+        <p>EMAIL: <span>{{ profile.email }}</span></p>
+      </div>
+
+      <section class="stats-grid">
+        <article class="stat-card">
+          <p>MISSIONS COMPLETED</p>
+          <h2>{{ stats.completedMissions }}</h2>
+        </article>
+
+        <article class="stat-card">
+          <p>TOTAL XP EARNED</p>
+          <h2>{{ stats.totalXp }}</h2>
+        </article>
+
+        <article class="stat-card">
+          <p>TOTAL SCORE</p>
+          <h2>{{ stats.totalScore }}</h2>
+        </article>
+
+        <article class="stat-card">
+          <p>BEST SCORE</p>
+          <h2>{{ stats.bestScore }}</h2>
+        </article>
+      </section>
+
+      <section class="achievements-section">
+        <h2>ACHIEVEMENTS</h2>
+
+        <div class="achievements-grid">
+          @for (achievement of achievements; track achievement.title) {
+          <article class="achievement-card"
+                   [class.achievement-unlocked]="achievement.unlocked">
+            <span class="achievement-state">
+              @if (achievement.unlocked) {
+              UNLOCKED
+              } @else {
+              LOCKED
+              }
+            </span>
+
+            <h3>{{ achievement.title }}</h3>
+            <p>{{ achievement.description }}</p>
+          </article>
+          }
+        </div>
+      </section>
+
+      <section class="history-section">
+        <h2>RECENT MISSION HISTORY</h2>
+
+        @if (history.length === 0) {
+        <p>&gt; NO COMPLETED MISSIONS YET.</p>
+        } @else {
+        <div class="history-list">
+          @for (entry of history.slice(0, 3); track $index) {
+          <article class="history-card">
+            <div class="history-heading">
+              <h3>{{ entry.scenarioTitle }}</h3>
+              <span class="history-status"
+                    [class.history-success]="entry.isSuccessful"
+                    [class.history-timeout]="!entry.isSuccessful">
+                {{ entry.isSuccessful ? 'SUCCESS' : 'TIMEOUT' }}
+              </span>
+            </div>
+
+            <p>
+              SCORE: {{ entry.score }}
+              // XP: {{ entry.xpReward }}
+              // TIME: {{ entry.timeTakenSeconds }} SECONDS
+            </p>
+
+            @if (entry.finishedAt) {
+            <p class="history-date">
+              PLAYED: {{ entry.finishedAt | date:'medium' }}
+            </p>
+            }
+          </article>
+          }
+        </div>
+
+        @if (history.length > 3) {
+        <details class="history-more">
+          <summary>OLDER MISSIONS ({{ history.length - 3 }})</summary>
+
+          <div class="history-list">
+            @for (entry of history.slice(3); track $index) {
+            <article class="history-card">
+              <div class="history-heading">
+                <h3>{{ entry.scenarioTitle }}</h3>
+                <span class="history-status"
+                      [class.history-success]="entry.isSuccessful"
+                      [class.history-timeout]="!entry.isSuccessful">
+                  {{ entry.isSuccessful ? 'SUCCESS' : 'TIMEOUT' }}
+                </span>
+              </div>
+
+              <p>
+                SCORE: {{ entry.score }}
+                // XP: {{ entry.xpReward }}
+                // TIME: {{ entry.timeTakenSeconds }} SECONDS
+              </p>
+
+              @if (entry.finishedAt) {
+              <p class="history-date">
+                PLAYED: {{ entry.finishedAt | date:'medium' }}
+              </p>
+              }
+            </article>
+            }
+          </div>
+        </details>
+        }
+
+        <div class="history-pagination">
+          <button type="button"
+                  (click)="loadNewerHistory()"
+                  [disabled]="historyPage <= 1 || isHistoryLoading">
+            NEWER MISSIONS
+          </button>
+
+          <span>PAGE {{ historyPage }}</span>
+
+          <button type="button"
+                  (click)="loadOlderHistory()"
+                  [disabled]="!hasOlderHistory || isHistoryLoading">
+            @if (isHistoryLoading) {
+            LOADING...
+            } @else {
+            OLDER MISSIONS
+            }
+          </button>
+        </div>
+
+        @if (historyErrorMessage) {
+        <p class="error-message">&gt; {{ historyErrorMessage }}</p>
+        }
+        }
+      </section>
+      }
+    </div>
+  </div>
+
+  <div class="terminal-footer">
+    <span>HACKER TERMINAL v1.0</span>
+    <span>PROFILE DATA</span>
+  </div>
+</div>

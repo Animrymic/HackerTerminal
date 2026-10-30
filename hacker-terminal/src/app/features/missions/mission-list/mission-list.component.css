@@ -1,0 +1,239 @@
+.terminal-page {
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: 30px;
+  background: #050505;
+  color: #00ff66;
+  font-family: monospace;
+}
+
+.terminal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1100px;
+  margin: 0 auto 30px auto;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #00ff66;
+}
+
+  .terminal-header h1 {
+    margin: 0;
+    font-size: 28px;
+  }
+
+  .terminal-header p {
+    margin: 8px 0 0 0;
+    color: #777;
+  }
+
+.user-info {
+  text-align: right;
+  color: #777;
+}
+
+  .user-info .back-button,
+  .retry-button {
+    padding: 10px 16px;
+    background: #050505;
+    border: 1px solid #00ff66;
+    color: #00ff66;
+    font-family: monospace;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+    .user-info .back-button:hover,
+    .retry-button:hover {
+      background: #00ff66;
+      color: #000;
+    }
+
+.terminal-window {
+  max-width: 1100px;
+  margin: 0 auto;
+  border: 1px solid #00ff66;
+  background: #080808;
+  box-shadow: 0 0 25px rgba(0, 255, 102, 0.15);
+}
+
+.terminal-title {
+  padding: 12px 20px;
+  border-bottom: 1px solid #333;
+  background: #0d0d0d;
+  font-weight: bold;
+}
+
+.terminal-content {
+  min-height: 350px;
+  padding: 25px;
+  line-height: 1.8;
+}
+
+  .terminal-content > p {
+    margin: 0 0 12px;
+  }
+
+.mission-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.mission-card {
+  padding: 18px;
+  border: 1px solid #00ff66;
+  background: #050505;
+}
+
+  .mission-card h2 {
+    margin: 12px 0;
+    color: #00ff66;
+    font-size: 20px;
+  }
+
+  .mission-card p {
+    color: #aaa;
+  }
+
+  .mission-card .mission-category,
+  .mission-card .mission-reward {
+    color: #00ff66;
+    font-size: 13px;
+  }
+
+.error-message {
+  color: #ff6666;
+}
+
+.retry-button {
+  margin-top: 12px;
+}
+
+.terminal-footer {
+  max-width: 1100px;
+  margin: 30px auto 0 auto;
+  padding-top: 15px;
+  border-top: 1px solid #222;
+  display: flex;
+  justify-content: space-between;
+  color: #555;
+  font-size: 12px;
+}
+
+@media (max-width: 600px) {
+  .terminal-page {
+    padding: 20px;
+  }
+
+  .terminal-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .user-info {
+    text-align: left;
+  }
+
+  .terminal-content {
+    padding: 18px;
+  }
+
+  .mission-card .mission-challenge {
+    color: #00ff66;
+    border-left: 2px solid #00ff66;
+    padding-left: 12px;
+  }
+}
+.start-button,
+.submit-button {
+  padding: 10px 16px;
+  background: #050505;
+  border: 1px solid #00ff66;
+  color: #00ff66;
+  font-family: monospace;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+  .start-button:hover,
+  .submit-button:hover {
+    background: #00ff66;
+    color: #000;
+  }
+
+  .start-button:disabled,
+  .submit-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+.mission-play {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid #333;
+}
+
+  .mission-play form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 14px;
+  }
+
+  .mission-play label {
+    color: #00ff66;
+  }
+
+  .mission-play input {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px;
+    background: #050505;
+    border: 1px solid #00ff66;
+    color: #00ff66;
+    font-family: monospace;
+  }
+
+.answer-message {
+  color: #ffcc66;
+}
+
+.success-message {
+  color: #00ff66;
+}
+
+.mission-timer {
+  margin: 12px 0;
+  padding: 10px 14px;
+  border: 1px solid #00ff9c;
+  color: #00ff9c;
+  background: rgba(0, 255, 156, 0.08);
+  font-family: inherit;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.mission-timer-low {
+  border-color: #ff3b3b;
+  color: #ff3b3b;
+  background: rgba(255, 59, 59, 0.1);
+}
+
+.mission-status {
+  margin: 10px 0;
+  color: #00ff9c;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.mission-status-complete {
+  color: #00ff9c;
+}
+
+.mission-status-expired {
+  color: #ff3b3b;
+}

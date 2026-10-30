@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="HackerTerminal.API/HackerTerminal.API.csproj" />
+  <Project Path="HackerTerminal.Core/HackerTerminal.Core.csproj" />
+  <Project Path="HackerTerminal.Infrastructure/HackerTerminal.Infrastructure.csproj" />
+</Solution>

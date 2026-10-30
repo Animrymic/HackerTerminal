@@ -1,0 +1,116 @@
+<div class="terminal-page">
+  <div class="terminal-header">
+    <div>
+      <h1>HACKER TERMINAL</h1>
+      <p>TOP OPERATORS</p>
+    </div>
+
+    <div class="user-info">
+      <button class="back-button" type="button" (click)="goBack()">
+        BACK TO DASHBOARD
+      </button>
+
+      <button class="back-button"
+              type="button"
+              (click)="loadLeaderboard()"
+              [disabled]="isLoading">
+        @if (isLoading) {
+        REFRESHING...
+        } @else {
+        REFRESH RANKINGS
+        }
+      </button>
+    </div>
+  </div>
+
+  <div class="terminal-window">
+    <div class="terminal-title">GLOBAL LEADERBOARD // TOP 20</div>
+
+    <div class="terminal-content">
+      @if (isLoading) {
+      <p>&gt; LOADING LEADERBOARD...</p>
+      }
+
+      @if (!isLoading && errorMessage) {
+      <p class="error-message">&gt; {{ errorMessage }}</p>
+      <button class="retry-button" type="button" (click)="loadLeaderboard()">
+        TRY AGAIN
+      </button>
+      }
+
+      @if (!isLoading && !errorMessage) {
+      <div class="leaderboard-period">
+        <label for="leaderboard-period">RANKING PERIOD</label>
+        <select id="leaderboard-period"
+                [value]="selectedPeriod"
+                (change)="onPeriodChange($event)">
+          <option value="all">ALL TIME</option>
+          <option value="week">LAST 7 DAYS</option>
+          <option value="month">LAST 30 DAYS</option>
+        </select>
+      </div>
+
+      <section class="my-rank-card">
+        <p>YOUR CURRENT RANK</p>
+
+        @if (myRank?.rank !== null && myRank?.rank !== undefined) {
+        <h2>#{{ myRank.rank }}</h2>
+        <p>
+          MISSIONS: {{ myRank.completedMissions }}
+          // TOTAL SCORE: {{ myRank.totalScore }}
+          // TOTAL XP: {{ myRank.totalXp }}
+        </p>
+        } @else if (myRank) {
+        @if (selectedPeriod === 'all') {
+        <p>&gt; COMPLETE A MISSION TO EARN A RANK.</p>
+        } @else {
+        <p>&gt; NO RANK IN THIS PERIOD YET.</p>
+        }
+        } @else {
+        <p>&gt; RANK DATA WAS NOT RETURNED.</p>
+        }
+      </section>
+      }
+
+      @if (!isLoading && !errorMessage && leaderboard.length === 0) {
+      @if (selectedPeriod === 'all') {
+      <p>&gt; NO COMPLETED MISSIONS YET.</p>
+      } @else {
+      <p>&gt; NO COMPLETED MISSIONS IN THIS PERIOD.</p>
+      }
+      }
+
+      @if (!isLoading && !errorMessage && leaderboard.length > 0) {
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>RANK</th>
+              <th>OPERATOR</th>
+              <th>MISSIONS</th>
+              <th>TOTAL SCORE</th>
+              <th>TOTAL XP</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (entry of leaderboard; track entry.username) {
+            <tr [class.current-player-row]="myRank?.rank === entry.rank">
+              <td>#{{ entry.rank }}</td>
+              <td>{{ entry.username }}</td>
+              <td>{{ entry.completedMissions }}</td>
+              <td>{{ entry.totalScore }}</td>
+              <td>{{ entry.totalXp }}</td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      }
+    </div>
+  </div>
+
+  <div class="terminal-footer">
+    <span>HACKER TERMINAL v1.0</span>
+    <span>GLOBAL RANKINGS</span>
+  </div>
+</div>
