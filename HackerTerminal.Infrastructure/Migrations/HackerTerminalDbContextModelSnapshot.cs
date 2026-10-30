@@ -173,6 +173,20 @@ namespace HackerTerminal.Infrastructure.Migrations
                             TimeLimitSeconds = 180,
                             Title = "Base64 Decode",
                             XPReward = 175
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Category = "URL Analysis",
+                            ChallengePrompt = "A fresh URL analysis challenge is generated when you start this mission.",
+                            CreatedAt = new DateTime(2026, 10, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Inspect suspicious links and identify the URL hosted by the trusted domain.",
+                            Difficulty = "Medium",
+                            ExpectedAnswer = "https://example.com/start",
+                            IsActive = true,
+                            TimeLimitSeconds = 150,
+                            Title = "URL Analysis",
+                            XPReward = 180
                         });
                 });
 

@@ -95,6 +95,21 @@ public class HackerTerminalDbContext : DbContext
             TimeLimitSeconds = 180,
             IsActive = true,
             CreatedAt = new DateTime(2026, 10, 21)
+        },
+
+        new Scenario
+        {
+            Id = 5,
+            Title = "URL Analysis",
+            Description = "Inspect suspicious links and identify the URL hosted by the trusted domain.",
+            Category = "URL Analysis",
+            Difficulty = "Medium",
+            ChallengePrompt = "A fresh URL analysis challenge is generated when you start this mission.",
+            ExpectedAnswer = "https://example.com/start",
+            XPReward = 180,
+            TimeLimitSeconds = 150,
+            IsActive = true,
+            CreatedAt = new DateTime(2026, 10, 30)
         }
         );
     }

@@ -77,6 +77,12 @@ public class GameSessionsController : ControllerBase
                     break;
                 }
 
+            case "URL ANALYSIS":
+                {
+                    (challengePrompt, expectedAnswer) = GenerateUrlAnalysisChallenge();
+                    break;
+                }
+
             default:
                 return BadRequest("No challenge generator is configured for this mission category.");
         }
@@ -515,5 +521,42 @@ public class GameSessionsController : ControllerBase
                 cutoff = null;
                 return false;
         }
+    }
+
+    private static (string Prompt, string Answer) GenerateUrlAnalysisChallenge()
+    {
+        string safeUrl = $"https://example.com/{GenerateRandomUrlPart(8)}";
+
+        string[] urls =
+        {
+        safeUrl,
+        $"https://example.com.{GenerateRandomUrlPart(6)}.test/{GenerateRandomUrlPart(8)}",
+        $"https://example{RandomNumberGenerator.GetInt32(100, 1000)}.test/{GenerateRandomUrlPart(8)}"
+    };
+
+        for (int i = urls.Length - 1; i > 0; i--)
+        {
+            int j = RandomNumberGenerator.GetInt32(i + 1);
+            (urls[i], urls[j]) = (urls[j], urls[i]);
+        }
+
+        string prompt =
+            "Which URL has the exact hostname example.com? " +
+            string.Join(" | ", urls);
+
+        return (prompt, safeUrl);
+    }
+
+    private static string GenerateRandomUrlPart(int length)
+    {
+        const string characters = "abcdefghijklmnopqrstuvwxyz0123456789";
+        char[] value = new char[length];
+
+        for (int i = 0; i < value.Length; i++)
+        {
+            value[i] = characters[RandomNumberGenerator.GetInt32(characters.Length)];
+        }
+
+        return new string(value);
     }
 }
