@@ -328,6 +328,7 @@ public class GameSessionsController : ControllerBase
                 ScenarioTitle = session.Scenario.Title,
                 Score = session.Score,
                 XPReward = session.XPReward,
+                IncorrectAttempts = session.IncorrectAttempts,
                 TimeTakenSeconds = session.TimeTakenSeconds,
                 IsSuccessful = session.Score > 0,
                 FinishedAt = session.FinishedAt

@@ -20,6 +20,7 @@ export interface GameSessionHistory {
   scenarioTitle: string;
   score: number;
   xpReward: number;
+  incorrectAttempts: number;
   timeTakenSeconds: number;
   isSuccessful: boolean;
   finishedAt: string | null;
