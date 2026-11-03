@@ -14,6 +14,8 @@ export interface SubmitAnswerResponse {
   score?: number;
   xpReward?: number;
   incorrectAttempts?: number;
+  baseScore?: number;
+  scorePenalty?: number;
   timeTakenSeconds?: number;
 }
 

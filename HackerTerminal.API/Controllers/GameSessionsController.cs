@@ -212,6 +212,8 @@ public class GameSessionsController : ControllerBase
             score = session.Score,
             xpReward = session.XPReward,
             incorrectAttempts = session.IncorrectAttempts,
+            baseScore = baseScore,
+            scorePenalty = baseScore - session.Score,
             timeTakenSeconds = session.TimeTakenSeconds
         });
     }
