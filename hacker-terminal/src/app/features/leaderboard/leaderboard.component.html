@@ -51,7 +51,7 @@
       </div>
 
       <section class="my-rank-card">
-        <p>YOUR CURRENT RANK</p>
+        <p>{{ selectedPeriod === 'all' ? 'YOUR CURRENT RANK // LEVEL' : 'YOUR PERIOD RANK // PERIOD LEVEL' }}</p>
 
         @if (myRank?.rank !== null && myRank?.rank !== undefined) {
         <h2>#{{ myRank.rank }}</h2>
@@ -88,7 +88,7 @@
             <tr>
               <th>RANK</th>
               <th>OPERATOR</th>
-              <th>LEVEL</th>
+              <th>{{ selectedPeriod === 'all' ? 'LEVEL' : 'PERIOD LEVEL' }}</th>
               <th>MISSIONS</th>
               <th>TOTAL SCORE</th>
               <th>TOTAL XP</th>
