@@ -307,6 +307,48 @@ public class HackerTerminalDbContext : DbContext
             TimeLimitSeconds = 210,
             IsActive = true,
             CreatedAt = new DateTime(2026, 11, 3)
+        },
+        new Scenario
+        {
+            Id = 20,
+            Title = "Hash Analysis",
+            Description = "Identify the SHA-256 digest for a short message.",
+            Category = "Hash Analysis",
+            Difficulty = "Easy",
+            ChallengePrompt = "A fresh hash analysis challenge is generated when you start this mission.",
+            ExpectedAnswer = "DYNAMIC",
+            XPReward = 200,
+            TimeLimitSeconds = 180,
+            IsActive = true,
+            CreatedAt = new DateTime(2026, 11, 3)
+        },
+        new Scenario
+        {
+            Id = 21,
+            Title = "Hash Analysis // MEDIUM",
+            Description = "Identify the SHA-256 digest for a longer message among more choices.",
+            Category = "Hash Analysis",
+            Difficulty = "Medium",
+            ChallengePrompt = "A fresh hash analysis challenge is generated when you start this mission.",
+            ExpectedAnswer = "DYNAMIC",
+            XPReward = 250,
+            TimeLimitSeconds = 210,
+            IsActive = true,
+            CreatedAt = new DateTime(2026, 11, 3)
+        },
+        new Scenario
+        {
+            Id = 22,
+            Title = "Hash Analysis // HARD",
+            Description = "Identify the SHA-256 digest for a longer message from the largest choice set.",
+            Category = "Hash Analysis",
+            Difficulty = "Hard",
+            ChallengePrompt = "A fresh hard hash analysis challenge is generated when you start this mission.",
+            ExpectedAnswer = "DYNAMIC",
+            XPReward = 300,
+            TimeLimitSeconds = 240,
+            IsActive = true,
+            CreatedAt = new DateTime(2026, 11, 3)
         }
         );
     }

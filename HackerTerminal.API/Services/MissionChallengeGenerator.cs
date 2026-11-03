@@ -50,6 +50,10 @@ public static class MissionChallengeGenerator
                 (prompt, answer) = GenerateNetworkAnalysisChallenge(level);
                 return true;
 
+            case "HASH ANALYSIS":
+                (prompt, answer) = GenerateHashAnalysisChallenge(level);
+                return true;
+
             default:
                 prompt = string.Empty;
                 answer = string.Empty;
@@ -422,5 +426,41 @@ public static class MissionChallengeGenerator
             $"with {target.Name}? Options: {string.Join(", ", ports)}";
 
         return (prompt, target.Port.ToString());
+    }
+
+    private static (string Prompt, string Answer) GenerateHashAnalysisChallenge(
+    string difficulty)
+    {
+        int messageLength = DifficultyValue(difficulty, 6, 12, 24);
+        string message = GenerateRandomUrlPart(messageLength);
+
+        string correctHash = Convert.ToHexString(
+            SHA256.HashData(Encoding.UTF8.GetBytes(message)));
+
+        int optionCount = DifficultyValue(difficulty, 3, 4, 5);
+        List<string> hashes = new() { correctHash };
+
+        while (hashes.Count < optionCount)
+        {
+            string decoyHash = Convert.ToHexString(
+                RandomNumberGenerator.GetBytes(32));
+
+            if (!hashes.Contains(decoyHash))
+            {
+                hashes.Add(decoyHash);
+            }
+        }
+
+        for (int i = hashes.Count - 1; i > 0; i--)
+        {
+            int j = RandomNumberGenerator.GetInt32(i + 1);
+            (hashes[i], hashes[j]) = (hashes[j], hashes[i]);
+        }
+
+        string prompt =
+            $"Find the SHA-256 digest of this text: {message}. " +
+            $"Options: {string.Join(" | ", hashes)}";
+
+        return (prompt, correctHash);
     }
 }

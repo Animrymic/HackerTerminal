@@ -383,6 +383,48 @@ namespace HackerTerminal.Infrastructure.Migrations
                             TimeLimitSeconds = 210,
                             Title = "Network Port Analysis // HARD",
                             XPReward = 275
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Category = "Hash Analysis",
+                            ChallengePrompt = "A fresh hash analysis challenge is generated when you start this mission.",
+                            CreatedAt = new DateTime(2026, 11, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Identify the SHA-256 digest for a short message.",
+                            Difficulty = "Easy",
+                            ExpectedAnswer = "DYNAMIC",
+                            IsActive = true,
+                            TimeLimitSeconds = 180,
+                            Title = "Hash Analysis",
+                            XPReward = 200
+                        },
+                        new
+                        {
+                            Id = 21,
+                            Category = "Hash Analysis",
+                            ChallengePrompt = "A fresh hash analysis challenge is generated when you start this mission.",
+                            CreatedAt = new DateTime(2026, 11, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Identify the SHA-256 digest for a longer message among more choices.",
+                            Difficulty = "Medium",
+                            ExpectedAnswer = "DYNAMIC",
+                            IsActive = true,
+                            TimeLimitSeconds = 210,
+                            Title = "Hash Analysis // MEDIUM",
+                            XPReward = 250
+                        },
+                        new
+                        {
+                            Id = 22,
+                            Category = "Hash Analysis",
+                            ChallengePrompt = "A fresh hard hash analysis challenge is generated when you start this mission.",
+                            CreatedAt = new DateTime(2026, 11, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Identify the SHA-256 digest for a longer message from the largest choice set.",
+                            Difficulty = "Hard",
+                            ExpectedAnswer = "DYNAMIC",
+                            IsActive = true,
+                            TimeLimitSeconds = 240,
+                            Title = "Hash Analysis // HARD",
+                            XPReward = 300
                         });
                 });
 
