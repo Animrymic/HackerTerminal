@@ -61,6 +61,10 @@ export class LeaderboardComponent implements OnInit {
     }
   }
 
+  public getOperatorLevel(totalXp: number): number {
+    return Math.floor(totalXp / 1000) + 1;
+  }
+
   public goBack(): void {
     this.router.navigate(['/home']);
   }

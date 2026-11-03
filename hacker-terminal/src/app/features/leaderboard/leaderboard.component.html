@@ -55,6 +55,7 @@
 
         @if (myRank?.rank !== null && myRank?.rank !== undefined) {
         <h2>#{{ myRank.rank }}</h2>
+        <p>LEVEL: {{ getOperatorLevel(myRank.totalXp) }}</p>
         <p>
           MISSIONS: {{ myRank.completedMissions }}
           // TOTAL SCORE: {{ myRank.totalScore }}
@@ -87,16 +88,19 @@
             <tr>
               <th>RANK</th>
               <th>OPERATOR</th>
+              <th>LEVEL</th>
               <th>MISSIONS</th>
               <th>TOTAL SCORE</th>
               <th>TOTAL XP</th>
             </tr>
           </thead>
+
           <tbody>
             @for (entry of leaderboard; track entry.username) {
             <tr [class.current-player-row]="myRank?.rank === entry.rank">
               <td>#{{ entry.rank }}</td>
               <td>{{ entry.username }}</td>
+              <td>LVL {{ getOperatorLevel(entry.totalXp) }}</td>
               <td>{{ entry.completedMissions }}</td>
               <td>{{ entry.totalScore }}</td>
               <td>{{ entry.totalXp }}</td>
