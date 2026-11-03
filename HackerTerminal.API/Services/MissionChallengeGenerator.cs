@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -59,21 +60,37 @@ public static class MissionChallengeGenerator
     }
 
     private static (string Prompt, string Answer) GeneratePasswordChallenge(
-        string difficulty)
+     string difficulty)
     {
-        string firstOption =
-            $"password{RandomNumberGenerator.GetInt32(100000, 1_000_000)}";
-        string secondOption =
-            $"qwerty{RandomNumberGenerator.GetInt32(100000, 1_000_000)}";
-        string generatedPassword = GenerateStrongPassword(
+        string strongPasswordOne = GenerateStrongPassword(
+            DifficultyValue(difficulty, 12, 14, 18));
+        string strongPasswordTwo = GenerateStrongPassword(
             DifficultyValue(difficulty, 12, 14, 18));
 
-        string prompt =
-            $"Choose the strongest password: {firstOption}, {secondOption}, or {generatedPassword}";
+        string weakPasswordOne =
+            $"password{RandomNumberGenerator.GetInt32(100, 10_000)}";
+        string weakPasswordTwo =
+            $"qwerty{RandomNumberGenerator.GetInt32(100, 10_000)}";
 
-        return (prompt, generatedPassword);
+        if (RandomNumberGenerator.GetInt32(2) == 0)
+        {
+            string prompt =
+                $"Choose the strongest password: {weakPasswordOne}, " +
+                $"{strongPasswordOne}, or {weakPasswordTwo}";
+
+            return (prompt, strongPasswordOne);
+        }
+
+        string weakAnswer = RandomNumberGenerator.GetInt32(2) == 0
+            ? weakPasswordOne
+            : weakPasswordTwo;
+
+        string weakPrompt =
+            $"Which password is weak and should be rejected: " +
+            $"{strongPasswordOne}, {weakAnswer}, or {strongPasswordTwo}?";
+
+        return (weakPrompt, weakAnswer);
     }
-
     private static string GenerateStrongPassword(int length)
     {
         const string characters =
@@ -103,16 +120,23 @@ public static class MissionChallengeGenerator
         }
 
         int shift = RandomNumberGenerator.GetInt32(1, 26);
+        bool encodedForward = RandomNumberGenerator.GetInt32(2) == 0;
         char[] encrypted = answer.ToArray();
 
         for (int i = 0; i < encrypted.Length; i++)
         {
-            encrypted[i] =
-                (char)('A' + (encrypted[i] - 'A' + shift) % 26);
+            int offset = encrypted[i] - 'A';
+            int encodedOffset = encodedForward
+                ? (offset + shift) % 26
+                : (offset - shift + 26) % 26;
+
+            encrypted[i] = (char)('A' + encodedOffset);
         }
 
+        string direction = encodedForward ? "backward" : "forward";
         string prompt =
-            $"Decode this Caesar cipher by shifting backward {shift} letters: {new string(encrypted)}";
+            $"Decode this Caesar cipher by shifting {direction} {shift} " +
+            $"letters: {new string(encrypted)}";
 
         return (prompt, new string(answer));
     }
@@ -183,36 +207,57 @@ public static class MissionChallengeGenerator
     {
         const string characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         int length = DifficultyValue(difficulty, 6, 8, 12);
-        char[] answer = new char[length];
+        char[] plainTextCharacters = new char[length];
 
-        for (int i = 0; i < answer.Length; i++)
+        for (int i = 0; i < plainTextCharacters.Length; i++)
         {
-            answer[i] =
+            plainTextCharacters[i] =
                 characters[RandomNumberGenerator.GetInt32(characters.Length)];
         }
 
-        string plainText = new string(answer);
+        string plainText = new string(plainTextCharacters);
         string encoded =
             Convert.ToBase64String(Encoding.UTF8.GetBytes(plainText));
 
-        return ($"Decode this Base64 string: {encoded}", plainText);
+        if (RandomNumberGenerator.GetInt32(2) == 0)
+        {
+            return ($"Decode this Base64 string: {encoded}", plainText);
+        }
+
+        return ($"Encode this text as Base64: {plainText}", encoded);
     }
 
     private static (string Prompt, string Answer) GenerateUrlAnalysisChallenge(
         string difficulty)
     {
-        string safeUrl = $"https://example.com/{GenerateRandomUrlPart(8)}";
+        string[] knownHosts =
+        {
+            "example.com",
+            "example.org",
+            "example.net",
+            "example.edu"
+        };
+
+        string targetHost =
+            knownHosts[RandomNumberGenerator.GetInt32(knownHosts.Length)];
+
+        string correctUrl =
+            $"https://{targetHost}/{GenerateRandomUrlPart(8)}";
+
         int optionCount = DifficultyValue(difficulty, 3, 4, 5);
-        List<string> urls = new() { safeUrl };
+        List<string> urls = new() { correctUrl };
 
         for (int i = 1; i < optionCount; i++)
         {
+            string randomPart = GenerateRandomUrlPart(6);
+            string path = GenerateRandomUrlPart(8);
+
             string decoy = i switch
             {
-                1 => $"https://example.com.{GenerateRandomUrlPart(6)}.test/{GenerateRandomUrlPart(8)}",
-                2 => $"https://example{RandomNumberGenerator.GetInt32(100, 1000)}.test/{GenerateRandomUrlPart(8)}",
-                3 => $"https://login.example.com/{GenerateRandomUrlPart(8)}",
-                _ => $"https://example.com@{GenerateRandomUrlPart(6)}.test/{GenerateRandomUrlPart(8)}"
+                1 => $"https://{targetHost}.{randomPart}.test/{path}",
+                2 => $"https://login.{targetHost}/{path}",
+                3 => $"https://{targetHost}@{randomPart}.test/{path}",
+                _ => $"https://{targetHost.Replace('.', '-')}.test/{path}"
             };
 
             urls.Add(decoy);
@@ -225,10 +270,10 @@ public static class MissionChallengeGenerator
         }
 
         string prompt =
-            "Which URL has the exact hostname example.com? " +
+            $"Which URL has the exact hostname {targetHost}? " +
             string.Join(" | ", urls);
 
-        return (prompt, safeUrl);
+        return (prompt, correctUrl);
     }
 
     private static string GenerateRandomUrlPart(int length)
