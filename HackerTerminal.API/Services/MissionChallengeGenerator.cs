@@ -338,7 +338,16 @@ public static class MissionChallengeGenerator
     private static (string Prompt, string Answer) GenerateSqlInjectionChallenge(
     string difficulty)
     {
-        string injectionInput = "' OR 1=1 --";
+        string[] injectionPatterns =
+        {
+        "' OR 1=1 --",
+        "' OR 2>1 --",
+        "' OR 'x'='x' --"
+    };
+
+        string injectionInput =
+            injectionPatterns[RandomNumberGenerator.GetInt32(injectionPatterns.Length)];
+
         int optionCount = DifficultyValue(difficulty, 3, 4, 5);
 
         List<string> inputs = new()
@@ -350,8 +359,7 @@ public static class MissionChallengeGenerator
 
         while (inputs.Count < optionCount)
         {
-            inputs.Add(
-                $"user{RandomNumberGenerator.GetInt32(1000, 10_000)}");
+            inputs.Add($"user{RandomNumberGenerator.GetInt32(1000, 10_000)}");
         }
 
         for (int i = inputs.Count - 1; i > 0; i--)
@@ -362,8 +370,8 @@ public static class MissionChallengeGenerator
 
         string prompt =
             "In a training-only toy login query that inserts the username " +
-            "between single quotes, which input attempts to bypass password " +
-            "checking with a true condition and a SQL comment? " +
+            "between single quotes, which input uses SQL syntax to alter the " +
+            "query and bypass its intended password check? " +
             string.Join(" | ", inputs);
 
         return (prompt, injectionInput);
