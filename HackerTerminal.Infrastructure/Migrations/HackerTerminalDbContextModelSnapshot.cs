@@ -341,6 +341,48 @@ namespace HackerTerminal.Infrastructure.Migrations
                             TimeLimitSeconds = 210,
                             Title = "SQL Injection Analysis // HARD",
                             XPReward = 275
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Category = "Network Analysis",
+                            ChallengePrompt = "A fresh network port challenge is generated when you start this mission.",
+                            CreatedAt = new DateTime(2026, 11, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Identify the common network port associated with a service.",
+                            Difficulty = "Easy",
+                            ExpectedAnswer = "DYNAMIC",
+                            IsActive = true,
+                            TimeLimitSeconds = 150,
+                            Title = "Network Port Analysis",
+                            XPReward = 175
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Category = "Network Analysis",
+                            ChallengePrompt = "A fresh network port challenge is generated when you start this mission.",
+                            CreatedAt = new DateTime(2026, 11, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Match network services to their commonly used ports.",
+                            Difficulty = "Medium",
+                            ExpectedAnswer = "DYNAMIC",
+                            IsActive = true,
+                            TimeLimitSeconds = 180,
+                            Title = "Network Port Analysis // MEDIUM",
+                            XPReward = 225
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Category = "Network Analysis",
+                            ChallengePrompt = "A fresh hard network port challenge is generated when you start this mission.",
+                            CreatedAt = new DateTime(2026, 11, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Match network services to their commonly used ports from more choices.",
+                            Difficulty = "Hard",
+                            ExpectedAnswer = "DYNAMIC",
+                            IsActive = true,
+                            TimeLimitSeconds = 210,
+                            Title = "Network Port Analysis // HARD",
+                            XPReward = 275
                         });
                 });
 

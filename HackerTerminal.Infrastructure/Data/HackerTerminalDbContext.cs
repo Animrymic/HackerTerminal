@@ -265,6 +265,48 @@ public class HackerTerminalDbContext : DbContext
             TimeLimitSeconds = 210,
             IsActive = true,
             CreatedAt = new DateTime(2026, 11, 3)
+        },
+        new Scenario
+        {
+            Id = 17,
+            Title = "Network Port Analysis",
+            Description = "Identify the common network port associated with a service.",
+            Category = "Network Analysis",
+            Difficulty = "Easy",
+            ChallengePrompt = "A fresh network port challenge is generated when you start this mission.",
+            ExpectedAnswer = "DYNAMIC",
+            XPReward = 175,
+            TimeLimitSeconds = 150,
+            IsActive = true,
+            CreatedAt = new DateTime(2026, 11, 3)
+        },
+        new Scenario
+        {
+            Id = 18,
+            Title = "Network Port Analysis // MEDIUM",
+            Description = "Match network services to their commonly used ports.",
+            Category = "Network Analysis",
+            Difficulty = "Medium",
+            ChallengePrompt = "A fresh network port challenge is generated when you start this mission.",
+            ExpectedAnswer = "DYNAMIC",
+            XPReward = 225,
+            TimeLimitSeconds = 180,
+            IsActive = true,
+            CreatedAt = new DateTime(2026, 11, 3)
+        },
+        new Scenario
+        {
+            Id = 19,
+            Title = "Network Port Analysis // HARD",
+            Description = "Match network services to their commonly used ports from more choices.",
+            Category = "Network Analysis",
+            Difficulty = "Hard",
+            ChallengePrompt = "A fresh hard network port challenge is generated when you start this mission.",
+            ExpectedAnswer = "DYNAMIC",
+            XPReward = 275,
+            TimeLimitSeconds = 210,
+            IsActive = true,
+            CreatedAt = new DateTime(2026, 11, 3)
         }
         );
     }

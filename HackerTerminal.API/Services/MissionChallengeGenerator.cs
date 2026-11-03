@@ -46,6 +46,10 @@ public static class MissionChallengeGenerator
                 (prompt, answer) = GenerateSqlInjectionChallenge(level);
                 return true;
 
+            case "NETWORK ANALYSIS":
+                (prompt, answer) = GenerateNetworkAnalysisChallenge(level);
+                return true;
+
             default:
                 prompt = string.Empty;
                 answer = string.Empty;
@@ -375,5 +379,48 @@ public static class MissionChallengeGenerator
             string.Join(" | ", inputs);
 
         return (prompt, injectionInput);
+    }
+
+    private static (string Prompt, string Answer) GenerateNetworkAnalysisChallenge(
+    string difficulty)
+    {
+        (string Name, int Port)[] services =
+        {
+        ("SSH", 22),
+        ("DNS", 53),
+        ("HTTP", 80),
+        ("HTTPS", 443),
+        ("RDP", 3389),
+        ("FTP", 21),
+        ("SMTP", 25),
+        ("MySQL", 3306)
+    };
+
+        var target = services[RandomNumberGenerator.GetInt32(services.Length)];
+        int optionCount = DifficultyValue(difficulty, 3, 4, 5);
+        List<int> ports = new() { target.Port };
+
+        while (ports.Count < optionCount)
+        {
+            int candidate =
+                services[RandomNumberGenerator.GetInt32(services.Length)].Port;
+
+            if (!ports.Contains(candidate))
+            {
+                ports.Add(candidate);
+            }
+        }
+
+        for (int i = ports.Count - 1; i > 0; i--)
+        {
+            int j = RandomNumberGenerator.GetInt32(i + 1);
+            (ports[i], ports[j]) = (ports[j], ports[i]);
+        }
+
+        string prompt =
+            $"In this training exercise, which port is commonly associated " +
+            $"with {target.Name}? Options: {string.Join(", ", ports)}";
+
+        return (prompt, target.Port.ToString());
     }
 }
