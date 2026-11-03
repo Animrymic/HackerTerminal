@@ -39,6 +39,9 @@ namespace HackerTerminal.Infrastructure.Migrations
                     b.Property<DateTime?>("FinishedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("IncorrectAttempts")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsCompleted")
                         .HasColumnType("bit");
 

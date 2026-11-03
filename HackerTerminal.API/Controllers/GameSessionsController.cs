@@ -1,11 +1,11 @@
 ﻿using System.Security.Claims;
 using HackerTerminal.API.DTOs;
+using HackerTerminal.API.Services;
 using HackerTerminal.Core.Entities;
 using HackerTerminal.Infrastructure.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using HackerTerminal.API.Services;
 
 namespace HackerTerminal.API.Controllers;
 
@@ -40,10 +40,10 @@ public class GameSessionsController : ControllerBase
         }
 
         if (!MissionChallengeGenerator.TryGenerate(
-        scenario.Category,
-        scenario.Difficulty,
-        out string challengePrompt,
-        out string expectedAnswer))
+            scenario.Category,
+            scenario.Difficulty,
+            out string challengePrompt,
+            out string expectedAnswer))
         {
             return BadRequest(
                 "No challenge generator is configured for this mission category.");
@@ -57,6 +57,7 @@ public class GameSessionsController : ControllerBase
             ExpectedAnswer = expectedAnswer,
             Score = 0,
             XPReward = 0,
+            IncorrectAttempts = 0,
             TimeTakenSeconds = 0,
             IsCompleted = false,
             StartedAt = DateTime.UtcNow
@@ -130,17 +131,29 @@ public class GameSessionsController : ControllerBase
         }
 
         string expectedAnswer =
-    session.ExpectedAnswer ?? session.Scenario.ExpectedAnswer;
+            session.ExpectedAnswer ?? session.Scenario.ExpectedAnswer;
 
         bool isCaseInsensitive =
-    string.Equals(
-        session.Scenario.Category,
-        "Cipher",
-        StringComparison.OrdinalIgnoreCase) ||
-    string.Equals(
-        session.Scenario.Category,
-        "Base64",
-        StringComparison.OrdinalIgnoreCase);
+            string.Equals(
+                session.Scenario.Category,
+                "Cipher",
+                StringComparison.OrdinalIgnoreCase) ||
+            string.Equals(
+                session.Scenario.Category,
+                "Base64",
+                StringComparison.OrdinalIgnoreCase) ||
+            string.Equals(
+                session.Scenario.Category,
+                "Hash Analysis",
+                StringComparison.OrdinalIgnoreCase) ||
+            string.Equals(
+                session.Scenario.Category,
+                "Phishing",
+                StringComparison.OrdinalIgnoreCase) ||
+            string.Equals(
+                session.Scenario.Category,
+                "SQL Injection",
+                StringComparison.OrdinalIgnoreCase);
 
         StringComparison comparison = isCaseInsensitive
             ? StringComparison.OrdinalIgnoreCase
@@ -153,6 +166,9 @@ public class GameSessionsController : ControllerBase
 
         if (!isCorrect)
         {
+            session.IncorrectAttempts++;
+            await _context.SaveChangesAsync();
+
             return Ok(new
             {
                 isCorrect = false,
@@ -164,18 +180,25 @@ public class GameSessionsController : ControllerBase
         session.IsCompleted = true;
         session.TimeTakenSeconds = timeTakenSeconds;
         session.FinishedAt = finishedAt;
+
         int difficultyMultiplier =
-    session.Scenario.Difficulty.Trim().ToUpperInvariant() switch
-    {
-        "EASY" => 1,
-        "HARD" => 3,
-        _ => 2
-    };
+            session.Scenario.Difficulty.Trim().ToUpperInvariant() switch
+            {
+                "EASY" => 1,
+                "HARD" => 3,
+                _ => 2
+            };
 
         int secondsRemaining =
             Math.Max(0, session.Scenario.TimeLimitSeconds - timeTakenSeconds);
 
-        session.Score = Math.Max(1, secondsRemaining * difficultyMultiplier);
+        int baseScore = Math.Max(1, secondsRemaining * difficultyMultiplier);
+        int penaltyPerWrongAttempt = Math.Max(1, baseScore / 10);
+
+        session.Score = Math.Max(
+            1,
+            baseScore - session.IncorrectAttempts * penaltyPerWrongAttempt);
+
         session.XPReward = session.Scenario.XPReward;
 
         await _context.SaveChangesAsync();
@@ -228,7 +251,7 @@ public class GameSessionsController : ControllerBase
 
     [HttpGet("leaderboard")]
     public async Task<ActionResult<List<LeaderboardEntryDto>>> GetLeaderboard(
-    [FromQuery] string period = "all")
+        [FromQuery] string period = "all")
     {
         if (!TryGetLeaderboardCutoff(period, out DateTime? cutoff))
         {
@@ -243,7 +266,8 @@ public class GameSessionsController : ControllerBase
 
         if (cutoff.HasValue)
         {
-            sessions = sessions.Where(session => session.FinishedAt >= cutoff.Value);
+            sessions = sessions.Where(
+                session => session.FinishedAt >= cutoff.Value);
         }
 
         var results = await sessions
@@ -281,7 +305,7 @@ public class GameSessionsController : ControllerBase
 
     [HttpGet("my-history")]
     public async Task<ActionResult<List<GameSessionHistoryDto>>> GetMyHistory(
-    [FromQuery] int page = 1)
+        [FromQuery] int page = 1)
     {
         string? userIdValue = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -315,7 +339,7 @@ public class GameSessionsController : ControllerBase
 
     [HttpGet("my-rank")]
     public async Task<ActionResult<PlayerRankDto>> GetMyRank(
-    [FromQuery] string period = "all")
+        [FromQuery] string period = "all")
     {
         string? userIdValue = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -337,7 +361,8 @@ public class GameSessionsController : ControllerBase
 
         if (cutoff.HasValue)
         {
-            sessions = sessions.Where(session => session.FinishedAt >= cutoff.Value);
+            sessions = sessions.Where(
+                session => session.FinishedAt >= cutoff.Value);
         }
 
         var standings = await sessions
@@ -359,7 +384,8 @@ public class GameSessionsController : ControllerBase
             .ThenBy(player => player.Username)
             .ToListAsync();
 
-        int playerIndex = standings.FindIndex(player => player.UserId == userId);
+        int playerIndex = standings.FindIndex(
+            player => player.UserId == userId);
 
         PlayerRankDto result = playerIndex < 0
             ? new PlayerRankDto()
@@ -375,8 +401,8 @@ public class GameSessionsController : ControllerBase
     }
 
     private static bool TryGetLeaderboardCutoff(
-    string period,
-    out DateTime? cutoff)
+        string period,
+        out DateTime? cutoff)
     {
         switch (period.Trim().ToLowerInvariant())
         {

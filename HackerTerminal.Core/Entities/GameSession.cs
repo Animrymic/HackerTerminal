@@ -9,6 +9,7 @@ public class GameSession
     public string? ExpectedAnswer { get; set; }
     public int Score { get; set; }
     public int XPReward { get; set; }
+    public int IncorrectAttempts { get; set; }
     public int TimeTakenSeconds { get; set; }
     public bool IsCompleted { get; set; }
     public DateTime StartedAt { get; set; }
