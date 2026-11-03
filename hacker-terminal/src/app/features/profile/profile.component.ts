@@ -117,6 +117,20 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  public get currentWinStreak(): number {
+    let streak = 0;
+
+    for (const entry of this.achievementHistory) {
+      if (!entry.isSuccessful) {
+        break;
+      }
+
+      streak++;
+    }
+
+    return streak;
+  }
+
   public get achievements(): {
     title: string;
     description: string;
@@ -157,6 +171,11 @@ export class ProfileComponent implements OnInit {
         title: 'FLAWLESS OPERATOR',
         description: 'Complete a tracked mission with no incorrect answers.',
         unlocked: hasRecentFlawlessRun
+      },
+      {
+        title: 'STREAK RUNNER',
+        description: 'Complete 3 successful missions in a row.',
+        unlocked: this.currentWinStreak >= 3
       }
     ];
   }
