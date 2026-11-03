@@ -15,6 +15,7 @@ import { UserService } from '../../services/user.service';
 })
 export class LeaderboardComponent implements OnInit {
   public leaderboard: LeaderboardEntry[] = [];
+  public myNeighbors: LeaderboardEntry[] = [];
   public myRank: PlayerRank | null = null;
   public selectedPeriod: 'all' | 'week' | 'month' = 'all';
   public isLoading = true;
@@ -36,11 +37,13 @@ export class LeaderboardComponent implements OnInit {
 
     forkJoin({
       leaderboard: this.userService.getLeaderboard(this.selectedPeriod),
-      myRank: this.userService.getMyRank(this.selectedPeriod)
+      myRank: this.userService.getMyRank(this.selectedPeriod),
+      myNeighbors: this.userService.getMyNeighbors(this.selectedPeriod)
     }).subscribe({
       next: (data) => {
         this.leaderboard = data.leaderboard;
         this.myRank = data.myRank;
+        this.myNeighbors = data.myNeighbors;
         this.isLoading = false;
         this.changeDetector.markForCheck();
       },

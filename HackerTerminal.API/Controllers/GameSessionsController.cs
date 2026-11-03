@@ -404,6 +404,83 @@ public class GameSessionsController : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("my-neighbors")]
+    public async Task<ActionResult<List<LeaderboardEntryDto>>> GetMyNeighbors(
+    [FromQuery] string period = "all")
+    {
+        string? userIdValue = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        if (!int.TryParse(userIdValue, out int userId))
+        {
+            return Unauthorized();
+        }
+
+        if (!TryGetLeaderboardCutoff(period, out DateTime? cutoff))
+        {
+            return BadRequest("Period must be 'all', 'week', or 'month'.");
+        }
+
+        IQueryable<GameSession> sessions = _context.GameSessions
+            .Where(session =>
+                session.IsCompleted &&
+                session.Score > 0 &&
+                session.User.IsActive);
+
+        if (cutoff.HasValue)
+        {
+            sessions = sessions.Where(
+                session => session.FinishedAt >= cutoff.Value);
+        }
+
+        var standings = await sessions
+            .GroupBy(session => new
+            {
+                session.UserId,
+                session.User.Username
+            })
+            .Select(group => new
+            {
+                UserId = group.Key.UserId,
+                Username = group.Key.Username,
+                CompletedMissions = group.Count(),
+                TotalXp = group.Sum(session => session.XPReward),
+                TotalScore = group.Sum(session => session.Score)
+            })
+            .OrderByDescending(player => player.TotalScore)
+            .ThenByDescending(player => player.TotalXp)
+            .ThenBy(player => player.Username)
+            .ToListAsync();
+
+        int playerIndex = standings.FindIndex(
+            player => player.UserId == userId);
+
+        if (playerIndex < 0)
+        {
+            return Ok(new List<LeaderboardEntryDto>());
+        }
+
+        const int neighborCount = 2;
+        int startIndex = Math.Max(0, playerIndex - neighborCount);
+        int endIndex = Math.Min(
+            standings.Count,
+            playerIndex + neighborCount + 1);
+
+        List<LeaderboardEntryDto> nearbyPlayers = standings
+            .Select((player, index) => new { player, index })
+            .Where(item => item.index >= startIndex && item.index < endIndex)
+            .Select(item => new LeaderboardEntryDto
+            {
+                Rank = item.index + 1,
+                Username = item.player.Username,
+                CompletedMissions = item.player.CompletedMissions,
+                TotalXp = item.player.TotalXp,
+                TotalScore = item.player.TotalScore
+            })
+            .ToList();
+
+        return Ok(nearbyPlayers);
+    }
+
     private static bool TryGetLeaderboardCutoff(
         string period,
         out DateTime? cutoff)

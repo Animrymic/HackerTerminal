@@ -71,6 +71,44 @@
         <p>&gt; RANK DATA WAS NOT RETURNED.</p>
         }
       </section>
+      @if (
+      myRank?.rank !== null &&
+      myRank?.rank !== undefined &&
+      myRank.rank > 20 &&
+      myNeighbors.length > 0
+      ) {
+      <section class="my-rank-card">
+        <p>PLAYERS NEAR YOUR RANK</p>
+
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>RANK</th>
+                <th>OPERATOR</th>
+                <th>{{ selectedPeriod === 'all' ? 'LEVEL' : 'PERIOD LEVEL' }}</th>
+                <th>MISSIONS</th>
+                <th>TOTAL SCORE</th>
+                <th>TOTAL XP</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              @for (entry of myNeighbors; track entry.username) {
+              <tr [class.current-player-row]="myRank?.rank === entry.rank">
+                <td>#{{ entry.rank }}</td>
+                <td>{{ entry.username }}</td>
+                <td>LVL {{ getOperatorLevel(entry.totalXp) }}</td>
+                <td>{{ entry.completedMissions }}</td>
+                <td>{{ entry.totalScore }}</td>
+                <td>{{ entry.totalXp }}</td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+      }
       }
 
       @if (!isLoading && !errorMessage && leaderboard.length === 0) {

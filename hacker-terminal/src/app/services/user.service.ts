@@ -50,4 +50,12 @@ export class UserService {
     );
   }
 
+  getMyNeighbors(
+    period: 'all' | 'week' | 'month' = 'all'
+  ): Observable<LeaderboardEntry[]> {
+    return this.http.get<LeaderboardEntry[]>(
+      `${this.gameSessionsUrl}/my-neighbors`,
+      { params: { period } }
+    );
+  }
 }
