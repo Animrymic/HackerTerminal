@@ -211,6 +211,7 @@ public class GameSessionsController : ControllerBase
             message = "Correct answer!",
             score = session.Score,
             xpReward = session.XPReward,
+            incorrectAttempts = session.IncorrectAttempts,
             timeTakenSeconds = session.TimeTakenSeconds
         });
     }

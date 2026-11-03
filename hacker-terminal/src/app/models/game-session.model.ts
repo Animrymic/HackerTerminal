@@ -13,6 +13,7 @@ export interface SubmitAnswerResponse {
   message: string;
   score?: number;
   xpReward?: number;
+  incorrectAttempts?: number;
   timeTakenSeconds?: number;
 }
 
