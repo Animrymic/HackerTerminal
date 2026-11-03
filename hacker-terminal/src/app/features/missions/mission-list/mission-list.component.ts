@@ -34,6 +34,7 @@ export class MissionListComponent implements OnInit, OnDestroy {
   public answerMessage = '';
   public gameResult: SubmitAnswerResponse | null = null;
   public secondsRemaining = 0;
+  public lastRandomScenarioId: number | null = null;
 
   private countdownInterval: ReturnType<typeof setInterval> | null = null;
 
@@ -114,11 +115,17 @@ export class MissionListComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const randomIndex = Math.floor(
-      Math.random() * this.filteredScenarios.length
-    );
+    const choices = this.filteredScenarios.length > 1
+      ? this.filteredScenarios.filter(
+        scenario => scenario.id !== this.lastRandomScenarioId
+      )
+      : this.filteredScenarios;
 
-    this.startMission(this.filteredScenarios[randomIndex]);
+    const randomIndex = Math.floor(Math.random() * choices.length);
+    const selectedScenario = choices[randomIndex];
+
+    this.lastRandomScenarioId = selectedScenario.id;
+    this.startMission(selectedScenario);
   }
 
   public submitAnswer(): void {
