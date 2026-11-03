@@ -223,6 +223,48 @@ public class HackerTerminalDbContext : DbContext
             TimeLimitSeconds = 210,
             IsActive = true,
             CreatedAt = new DateTime(2026, 11, 3)
+        },
+        new Scenario
+        {
+            Id = 14,
+            Title = "SQL Injection Basics",
+            Description = "Recognize a basic SQL injection pattern in a training-only login query.",
+            Category = "SQL Injection",
+            Difficulty = "Easy",
+            ChallengePrompt = "A fresh SQL injection challenge is generated when you start this mission.",
+            ExpectedAnswer = "DYNAMIC",
+            XPReward = 175,
+            TimeLimitSeconds = 150,
+            IsActive = true,
+            CreatedAt = new DateTime(2026, 11, 3)
+        },
+        new Scenario
+        {
+            Id = 15,
+            Title = "SQL Injection Analysis // MEDIUM",
+            Description = "Analyze input choices and identify the SQL injection pattern.",
+            Category = "SQL Injection",
+            Difficulty = "Medium",
+            ChallengePrompt = "A fresh SQL injection challenge is generated when you start this mission.",
+            ExpectedAnswer = "DYNAMIC",
+            XPReward = 225,
+            TimeLimitSeconds = 180,
+            IsActive = true,
+            CreatedAt = new DateTime(2026, 11, 3)
+        },
+        new Scenario
+        {
+            Id = 16,
+            Title = "SQL Injection Analysis // HARD",
+            Description = "Identify an SQL injection pattern from a larger set of possible inputs.",
+            Category = "SQL Injection",
+            Difficulty = "Hard",
+            ChallengePrompt = "A fresh hard SQL injection challenge is generated when you start this mission.",
+            ExpectedAnswer = "DYNAMIC",
+            XPReward = 275,
+            TimeLimitSeconds = 210,
+            IsActive = true,
+            CreatedAt = new DateTime(2026, 11, 3)
         }
         );
     }

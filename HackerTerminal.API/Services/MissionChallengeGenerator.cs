@@ -42,6 +42,10 @@ public static class MissionChallengeGenerator
                 (prompt, answer) = GeneratePhishingChallenge(level);
                 return true;
 
+            case "SQL INJECTION":
+                (prompt, answer) = GenerateSqlInjectionChallenge(level);
+                return true;
+
             default:
                 prompt = string.Empty;
                 answer = string.Empty;
@@ -329,5 +333,39 @@ public static class MissionChallengeGenerator
             string.Join(" | ", addresses);
 
         return (prompt, phishingAddress);
+    }
+
+    private static (string Prompt, string Answer) GenerateSqlInjectionChallenge(
+    string difficulty)
+    {
+        string injectionInput = "' OR 1=1 --";
+        int optionCount = DifficultyValue(difficulty, 3, 4, 5);
+
+        List<string> inputs = new()
+    {
+        injectionInput,
+        $"operator{RandomNumberGenerator.GetInt32(100, 1000)}",
+        $"guest{RandomNumberGenerator.GetInt32(100, 1000)}"
+    };
+
+        while (inputs.Count < optionCount)
+        {
+            inputs.Add(
+                $"user{RandomNumberGenerator.GetInt32(1000, 10_000)}");
+        }
+
+        for (int i = inputs.Count - 1; i > 0; i--)
+        {
+            int j = RandomNumberGenerator.GetInt32(i + 1);
+            (inputs[i], inputs[j]) = (inputs[j], inputs[i]);
+        }
+
+        string prompt =
+            "In a training-only toy login query that inserts the username " +
+            "between single quotes, which input attempts to bypass password " +
+            "checking with a true condition and a SQL comment? " +
+            string.Join(" | ", inputs);
+
+        return (prompt, injectionInput);
     }
 }

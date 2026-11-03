@@ -299,6 +299,48 @@ namespace HackerTerminal.Infrastructure.Migrations
                             TimeLimitSeconds = 210,
                             Title = "Phishing Detection // HARD",
                             XPReward = 250
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Category = "SQL Injection",
+                            ChallengePrompt = "A fresh SQL injection challenge is generated when you start this mission.",
+                            CreatedAt = new DateTime(2026, 11, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Recognize a basic SQL injection pattern in a training-only login query.",
+                            Difficulty = "Easy",
+                            ExpectedAnswer = "DYNAMIC",
+                            IsActive = true,
+                            TimeLimitSeconds = 150,
+                            Title = "SQL Injection Basics",
+                            XPReward = 175
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Category = "SQL Injection",
+                            ChallengePrompt = "A fresh SQL injection challenge is generated when you start this mission.",
+                            CreatedAt = new DateTime(2026, 11, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Analyze input choices and identify the SQL injection pattern.",
+                            Difficulty = "Medium",
+                            ExpectedAnswer = "DYNAMIC",
+                            IsActive = true,
+                            TimeLimitSeconds = 180,
+                            Title = "SQL Injection Analysis // MEDIUM",
+                            XPReward = 225
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Category = "SQL Injection",
+                            ChallengePrompt = "A fresh hard SQL injection challenge is generated when you start this mission.",
+                            CreatedAt = new DateTime(2026, 11, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Identify an SQL injection pattern from a larger set of possible inputs.",
+                            Difficulty = "Hard",
+                            ExpectedAnswer = "DYNAMIC",
+                            IsActive = true,
+                            TimeLimitSeconds = 210,
+                            Title = "SQL Injection Analysis // HARD",
+                            XPReward = 275
                         });
                 });
 
