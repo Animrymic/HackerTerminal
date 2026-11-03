@@ -164,7 +164,18 @@ public class GameSessionsController : ControllerBase
         session.IsCompleted = true;
         session.TimeTakenSeconds = timeTakenSeconds;
         session.FinishedAt = finishedAt;
-        session.Score = Math.Max(1,session.Scenario.TimeLimitSeconds - timeTakenSeconds);
+        int difficultyMultiplier =
+    session.Scenario.Difficulty.Trim().ToUpperInvariant() switch
+    {
+        "EASY" => 1,
+        "HARD" => 3,
+        _ => 2
+    };
+
+        int secondsRemaining =
+            Math.Max(0, session.Scenario.TimeLimitSeconds - timeTakenSeconds);
+
+        session.Score = Math.Max(1, secondsRemaining * difficultyMultiplier);
         session.XPReward = session.Scenario.XPReward;
 
         await _context.SaveChangesAsync();
