@@ -174,7 +174,7 @@ public class GameSessionsController : ControllerBase
             {
                 isCorrect = false,
                 isCompleted = false,
-                message = "Incorrect answer. Try again."
+                message = $"Incorrect answer. Try again. Wrong attempts: {session.IncorrectAttempts}."
             });
         }
 
