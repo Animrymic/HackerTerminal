@@ -33,6 +33,25 @@
         <p>EMAIL: <span>{{ profile.email }}</span></p>
       </div>
 
+      <section class="operator-level">
+        <h2>OPERATOR LEVEL {{ operatorLevel }}</h2>
+
+        <p>
+          {{ xpIntoCurrentLevel }} / 1000 XP
+          // {{ xpForNextLevel }} XP TO LEVEL {{ operatorLevel + 1 }}
+        </p>
+
+        <div class="level-progress"
+             role="progressbar"
+             aria-label="Progress to next operator level"
+             aria-valuemin="0"
+             aria-valuemax="1000"
+             [attr.aria-valuenow]="xpIntoCurrentLevel">
+          <div class="level-progress-fill"
+               [style.width.%]="levelProgressPercent"></div>
+        </div>
+      </section>
+
       <section class="stats-grid">
         <article class="stat-card">
           <p>MISSIONS COMPLETED</p>

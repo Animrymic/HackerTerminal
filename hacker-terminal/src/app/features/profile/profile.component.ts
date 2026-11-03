@@ -37,6 +37,22 @@ export class ProfileComponent implements OnInit {
     this.loadProfileData();
   }
 
+  public get operatorLevel(): number {
+    return Math.floor((this.stats?.totalXp ?? 0) / 1000) + 1;
+  }
+
+  public get xpIntoCurrentLevel(): number {
+    return (this.stats?.totalXp ?? 0) % 1000;
+  }
+
+  public get xpForNextLevel(): number {
+    return 1000 - this.xpIntoCurrentLevel;
+  }
+
+  public get levelProgressPercent(): number {
+    return (this.xpIntoCurrentLevel / 1000) * 100;
+  }
+
   public loadProfileData(): void {
     this.isLoading = true;
     this.errorMessage = '';
