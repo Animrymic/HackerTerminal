@@ -55,10 +55,18 @@
                [(ngModel)]="missionSearch"
                placeholder="Search title, category, or description"
                autocomplete="off" />
-        <button class="retry-button"
+        <button class="start-button"
                 type="button"
                 (click)="difficultyFilter = 'ALL'; categoryFilter = 'ALL'; missionSearch = ''">
           CLEAR FILTERS
+        </button>
+        <button class="start-button"
+                type="button"
+                (click)="startRandomMission()"
+                [disabled]="filteredScenarios.length === 0 ||
+              isStartingScenarioId !== null ||
+              activeSessionId !== null">
+          START RANDOM MISSION
         </button>
       </div>
 

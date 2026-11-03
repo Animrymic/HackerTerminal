@@ -109,6 +109,18 @@ export class MissionListComponent implements OnInit, OnDestroy {
     });
   }
 
+  public startRandomMission(): void {
+    if (this.filteredScenarios.length === 0 || this.activeSessionId !== null) {
+      return;
+    }
+
+    const randomIndex = Math.floor(
+      Math.random() * this.filteredScenarios.length
+    );
+
+    this.startMission(this.filteredScenarios[randomIndex]);
+  }
+
   public submitAnswer(): void {
     if (this.activeSessionId === null || !this.answer.trim() || this.isSubmitting) {
       return;
