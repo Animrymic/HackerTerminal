@@ -21,6 +21,7 @@ export class ProfileComponent implements OnInit {
   public isLoading = true;
   public errorMessage = '';
   public history: GameSessionHistory[] = [];
+  public achievementHistory: GameSessionHistory[] = [];
   public historyPage = 1;
   public hasOlderHistory = false;
   public isHistoryLoading = false;
@@ -49,6 +50,7 @@ export class ProfileComponent implements OnInit {
         this.profile = data.profile;
         this.stats = data.stats;
         this.history = data.history;
+        this.achievementHistory = data.history;
         this.historyPage = 1;
         this.hasOlderHistory = this.history.length === 50;
         this.isLoading = false;
@@ -107,6 +109,12 @@ export class ProfileComponent implements OnInit {
     const completed = this.stats?.completedMissions ?? 0;
     const totalXp = this.stats?.totalXp ?? 0;
     const bestScore = this.stats?.bestScore ?? 0;
+    const hasRecentFlawlessRun = this.achievementHistory.some(
+      entry =>
+        entry.attemptsTracked &&
+        entry.isSuccessful &&
+        entry.incorrectAttempts === 0
+    );
 
     return [
       {
@@ -128,6 +136,11 @@ export class ProfileComponent implements OnInit {
         title: 'SCORE BREAKER',
         description: 'Reach a best score of 100 or more.',
         unlocked: bestScore >= 100
+      },
+      {
+        title: 'FLAWLESS OPERATOR',
+        description: 'Complete a tracked mission with no incorrect answers.',
+        unlocked: hasRecentFlawlessRun
       }
     ];
   }

@@ -58,6 +58,7 @@ public class GameSessionsController : ControllerBase
             Score = 0,
             XPReward = 0,
             IncorrectAttempts = 0,
+            AttemptsTracked = true,
             TimeTakenSeconds = 0,
             IsCompleted = false,
             StartedAt = DateTime.UtcNow
@@ -329,6 +330,7 @@ public class GameSessionsController : ControllerBase
                 Score = session.Score,
                 XPReward = session.XPReward,
                 IncorrectAttempts = session.IncorrectAttempts,
+                AttemptsTracked = session.AttemptsTracked,
                 TimeTakenSeconds = session.TimeTakenSeconds,
                 IsSuccessful = session.Score > 0,
                 FinishedAt = session.FinishedAt

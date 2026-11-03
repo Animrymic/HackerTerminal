@@ -6,6 +6,7 @@ public class GameSessionHistoryDto
     public int Score { get; set; }
     public int XPReward { get; set; }
     public int IncorrectAttempts { get; set; }
+    public bool AttemptsTracked { get; set; }
     public int TimeTakenSeconds { get; set; }
     public bool IsSuccessful { get; set; }
     public DateTime? FinishedAt { get; set; }

@@ -21,6 +21,7 @@ export interface GameSessionHistory {
   score: number;
   xpReward: number;
   incorrectAttempts: number;
+  attemptsTracked: boolean;
   timeTakenSeconds: number;
   isSuccessful: boolean;
   finishedAt: string | null;

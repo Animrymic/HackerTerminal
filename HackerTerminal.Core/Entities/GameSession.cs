@@ -16,4 +16,5 @@ public class GameSession
     public DateTime? FinishedAt { get; set; }
     public User User { get; set; } = null!;
     public Scenario Scenario { get; set; } = null!;
+    public bool AttemptsTracked { get; set; }
 }

@@ -30,6 +30,9 @@ namespace HackerTerminal.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<bool>("AttemptsTracked")
+                        .HasColumnType("bit");
+
                     b.Property<string>("ChallengePrompt")
                         .HasColumnType("nvarchar(max)");
 
