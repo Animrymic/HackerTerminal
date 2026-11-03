@@ -181,6 +181,48 @@ public class HackerTerminalDbContext : DbContext
             TimeLimitSeconds = 210,
             IsActive = true,
             CreatedAt = new DateTime(2026, 10, 30)
+        },
+        new Scenario
+        {
+            Id = 11,
+            Title = "Phishing Detection",
+            Description = "Inspect a suspicious email sender and identify the deceptive address.",
+            Category = "Phishing",
+            Difficulty = "Easy",
+            ChallengePrompt = "A fresh phishing challenge is generated when you start this mission.",
+            ExpectedAnswer = "DYNAMIC",
+            XPReward = 150,
+            TimeLimitSeconds = 150,
+            IsActive = true,
+            CreatedAt = new DateTime(2026, 11, 3)
+        },
+        new Scenario
+        {
+            Id = 12,
+            Title = "Phishing Detection // MEDIUM",
+            Description = "Analyze email sender addresses for deceptive domain patterns.",
+            Category = "Phishing",
+            Difficulty = "Medium",
+            ChallengePrompt = "A fresh phishing challenge is generated when you start this mission.",
+            ExpectedAnswer = "DYNAMIC",
+            XPReward = 200,
+            TimeLimitSeconds = 180,
+            IsActive = true,
+            CreatedAt = new DateTime(2026, 11, 3)
+        },
+        new Scenario
+        {
+            Id = 13,
+            Title = "Phishing Detection // HARD",
+            Description = "Analyze a larger set of sender addresses for deceptive domain patterns.",
+            Category = "Phishing",
+            Difficulty = "Hard",
+            ChallengePrompt = "A fresh hard phishing challenge is generated when you start this mission.",
+            ExpectedAnswer = "DYNAMIC",
+            XPReward = 250,
+            TimeLimitSeconds = 210,
+            IsActive = true,
+            CreatedAt = new DateTime(2026, 11, 3)
         }
         );
     }

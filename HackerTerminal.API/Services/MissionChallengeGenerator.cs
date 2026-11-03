@@ -38,6 +38,10 @@ public static class MissionChallengeGenerator
                 (prompt, answer) = GenerateUrlAnalysisChallenge(level);
                 return true;
 
+            case "PHISHING":
+                (prompt, answer) = GeneratePhishingChallenge(level);
+                return true;
+
             default:
                 prompt = string.Empty;
                 answer = string.Empty;
@@ -288,5 +292,42 @@ public static class MissionChallengeGenerator
         }
 
         return new string(value);
+    }
+
+    private static (string Prompt, string Answer) GeneratePhishingChallenge(
+    string difficulty)
+    {
+        const string officialDomain = "example.com";
+
+        int optionCount = DifficultyValue(difficulty, 3, 4, 5);
+        string randomPart = GenerateRandomUrlPart(6);
+        string phishingAddress =
+            $"security@{officialDomain}.{randomPart}.test";
+
+        List<string> addresses = new()
+    {
+        phishingAddress,
+        "support@example.com",
+        "alerts@example.org"
+    };
+
+        while (addresses.Count < optionCount)
+        {
+            addresses.Add(
+                $"help{RandomNumberGenerator.GetInt32(10, 1000)}@example.net");
+        }
+
+        for (int i = addresses.Count - 1; i > 0; i--)
+        {
+            int j = RandomNumberGenerator.GetInt32(i + 1);
+            (addresses[i], addresses[j]) = (addresses[j], addresses[i]);
+        }
+
+        string prompt =
+            $"The official domain is {officialDomain}. Which sender uses a " +
+            $"deceptive domain that adds text after the official domain? " +
+            string.Join(" | ", addresses);
+
+        return (prompt, phishingAddress);
     }
 }

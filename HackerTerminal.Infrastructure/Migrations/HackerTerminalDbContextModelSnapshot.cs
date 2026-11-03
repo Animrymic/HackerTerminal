@@ -257,6 +257,48 @@ namespace HackerTerminal.Infrastructure.Migrations
                             TimeLimitSeconds = 210,
                             Title = "URL Analysis // HARD",
                             XPReward = 240
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Category = "Phishing",
+                            ChallengePrompt = "A fresh phishing challenge is generated when you start this mission.",
+                            CreatedAt = new DateTime(2026, 11, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Inspect a suspicious email sender and identify the deceptive address.",
+                            Difficulty = "Easy",
+                            ExpectedAnswer = "DYNAMIC",
+                            IsActive = true,
+                            TimeLimitSeconds = 150,
+                            Title = "Phishing Detection",
+                            XPReward = 150
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Category = "Phishing",
+                            ChallengePrompt = "A fresh phishing challenge is generated when you start this mission.",
+                            CreatedAt = new DateTime(2026, 11, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Analyze email sender addresses for deceptive domain patterns.",
+                            Difficulty = "Medium",
+                            ExpectedAnswer = "DYNAMIC",
+                            IsActive = true,
+                            TimeLimitSeconds = 180,
+                            Title = "Phishing Detection // MEDIUM",
+                            XPReward = 200
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Category = "Phishing",
+                            ChallengePrompt = "A fresh hard phishing challenge is generated when you start this mission.",
+                            CreatedAt = new DateTime(2026, 11, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Analyze a larger set of sender addresses for deceptive domain patterns.",
+                            Difficulty = "Hard",
+                            ExpectedAnswer = "DYNAMIC",
+                            IsActive = true,
+                            TimeLimitSeconds = 210,
+                            Title = "Phishing Detection // HARD",
+                            XPReward = 250
                         });
                 });
 
